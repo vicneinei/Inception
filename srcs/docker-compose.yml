@@ -1,0 +1,30 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    docker-compose.yml                                 :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
+#    Updated: 2021/12/23 00:24:38 by vneirinc         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+services:
+  nginx:
+    init: true #PID 1 forwards signals and zombie
+    #image: nginx
+    build:
+      context: ./requirements/nginx
+    env_file:
+      - .env
+    networks:
+      - my_net
+    #volumes:
+    #  - wordpress:/var/www/html
+    ports:
+      - "8080:80"
+    restart: always
+
+networks:
+  my_net:
