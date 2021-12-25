@@ -6,14 +6,13 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/23 00:24:38 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/25 12:38:59 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 services:
   nginx:
-    init: true #PID 1 forwards signals and zombie
-    #image: nginx
+    init: true
     build:
       context: ./requirements/nginx
     env_file:
@@ -21,9 +20,9 @@ services:
     networks:
       - my_net
     #volumes:
-    #  - wordpress:/var/www/html
+    #  - wordpress:/var/www/wordpress
     ports:
-      - "8080:80"
+      - "443:443"
     restart: always
 
 networks:
