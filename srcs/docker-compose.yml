@@ -6,24 +6,58 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/25 12:38:59 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/25 19:41:18 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+networks:
+  my_net:
+
+volumes:
+  wordpress:
+    name: "wordpress"
+    driver: local
+    driver_opts:
+      type: volume
+      o: bind
+      device: /Users/victorneirinckx/Desktop/19/Inception/wordpress/wordpress
+
 services:
   nginx:
+    container_name: nginx
     init: true
+    image: nginx
     build:
       context: ./requirements/nginx
+      args:
+        - version=3.14.3
     env_file:
       - .env
     networks:
       - my_net
-    #volumes:
-    #  - wordpress:/var/www/wordpress
+    volumes:
+      - wordpress:/var/www/wordpress
     ports:
       - "443:443"
-    restart: always
+  #  depends_on:
+  #    - wordpress
+    restart: unless-stopped
 
-networks:
-  my_net:
+  wordpress:
+    container_name: wordpress
+    init: true
+    image: wordpress 
+    build:
+      context: ./requirements/wordpress
+      args:
+        - version=3.14.3
+    env_file:
+      - .env
+    networks:
+      - my_net
+    volumes:
+      - wordpress:/var/www/
+    expose:
+      - "9000"
+    restart: unless-stopped
+
