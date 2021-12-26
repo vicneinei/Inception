@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/25 19:46:31 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/26 12:08:10 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,9 @@ ARG RUN_PKGS="php7-fpm php7-json php7-zlib php7-xml php7-xmlwriter \
 
 RUN \
     apk update &&\
-    apk add --no-cache ${RUN_PKGS}
+    apk add --no-cache ${RUN_PKGS} &&\
+    rm -f /var/cache/apk/*
+
+COPY ./conf/www.conf /etc/php7/php-fpm.d
 
 CMD [ "php-fpm7", "-F" ]

@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/26 12:03:30 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/25 20:37:50 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,13 @@ ARG version
 
 FROM alpine:${version}
 
-EXPOSE 443
+EXPOSE 3306
+
+ARG RUN_PKGS="mariadb mariadb-client mariadb-server-utils pwgen"
 
 RUN \
     apk update &&\
-    apk add --no-cache nginx openssl &&\
-    openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-     -subj "/C=BE/ST=Belgium/L=Brussels/O=42 Network/OU=s19/CN=vneirinc" \
-    -out /etc/nginx/vneirinc.42.fr.crt -keyout /etc/nginx/vneirinc.42.fr.key &&\
-    apk del openssl &&\
+    apk add --no-cache $(RUN_PKGS) &&\
     rm -f /var/cache/apk/*
 
-COPY ./conf/default.conf ./etc/nginx/http.d
-
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD [ "sleep", "infinity" ]

@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/25 19:41:18 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/26 10:26:25 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,18 @@ volumes:
       type: volume
       o: bind
       device: /Users/victorneirinckx/Desktop/19/Inception/wordpress/wordpress
+  db:
+    name: "db"
+    driver: local
+    driver_opts:
+      type: volume
+      o: bind
+      device: /Users/victorneirinckx/Desktop/19/Inception/db
 
 services:
   nginx:
-    container_name: nginx
     init: true
+    container_name: nginx
     image: nginx
     build:
       context: ./requirements/nginx
@@ -39,13 +46,13 @@ services:
       - wordpress:/var/www/wordpress
     ports:
       - "443:443"
-  #  depends_on:
-  #    - wordpress
+    depends_on:
+      - wordpress
     restart: unless-stopped
 
   wordpress:
-    container_name: wordpress
     init: true
+    container_name: wordpress
     image: wordpress 
     build:
       context: ./requirements/wordpress
@@ -56,8 +63,28 @@ services:
     networks:
       - my_net
     volumes:
-      - wordpress:/var/www/
+      - wordpress:/var/www/wordpress
     expose:
       - "9000"
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+
+  mariadb:
+    init: true
+    container_name: mariadb
+    image: mariadb
+    build:
+      context: ./requirements/mariadb
+      args:
+        - version=3.14.3
+    env_file:
+      - .env
+    networks:
+      - my_net
+    volumes:
+      - db:/var/lib/mysql
+    expose:
+      - "3306"
     restart: unless-stopped
 
