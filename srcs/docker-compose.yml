@@ -6,10 +6,11 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/26 20:35:36 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/28 11:01:55 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# Node anchor def: http://yaml.org/spec/1.2-old/spec.html#id2785586
 networks:
   my_net:
     name: "my_net"
@@ -38,13 +39,13 @@ services:
     build:
       context: ./requirements/nginx
       args:
-        - version=3.14.3
+        - &version version=3.14.3
     env_file:
       - .env
     networks:
       - my_net
     volumes:
-      - wordpress:/var/www/wordpress
+      - &wp_vol wordpress:/var/www/wp_dir
     ports:
       - "443:443"
     depends_on:
@@ -58,13 +59,13 @@ services:
     build:
       context: ./requirements/wordpress
       args:
-        - version=3.14.3
+        - *version
     env_file:
       - .env
     networks:
       - my_net
     volumes:
-      - wordpress:/var/www/wordpress
+      - *wp_vol
     expose:
       - "9000"
     depends_on:
@@ -78,7 +79,7 @@ services:
     build:
       context: ./requirements/mariadb
       args:
-        - version=3.14.3
+        - *version
     env_file:
       - .env
     networks:
