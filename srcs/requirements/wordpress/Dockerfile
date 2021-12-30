@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/26 20:32:47 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/29 13:20:25 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,13 @@ RUN \
     rm -f /var/cache/apk/*
 
 RUN mkdir -p /var/www/wordpress
-RUN wp core download --version=5.8.2 --path=/var/www/wordpress
+COPY ./conf/wp-config.php /var/www/wordpress
+#RUN wp core download --version=5.8.2 --path=/var/www/wordpress &&\
+#    wp plugin install redis-cache --activate --path=/var/www/wordpress &&\
+#    wp plugin update --all &&\
+#    wp redis enable
 
 COPY ./conf/www.conf /etc/php8/php-fpm.d
-COPY ./conf/wp-config.php /var/www/wordpress
 # insecure?
 
 CMD [ "php-fpm8", "-F" ]

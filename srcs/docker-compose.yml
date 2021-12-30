@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/28 11:01:55 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/29 15:44:58 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,13 +39,13 @@ services:
     build:
       context: ./requirements/nginx
       args:
-        - &version version=3.14.3
+        - &ver version=3.14.3
     env_file:
       - .env
     networks:
       - my_net
     volumes:
-      - &wp_vol wordpress:/var/www/wp_dir
+      - &wp_vol wordpress:/var/www/wordpress
     ports:
       - "443:443"
     depends_on:
@@ -59,7 +59,7 @@ services:
     build:
       context: ./requirements/wordpress
       args:
-        - *version
+        - *ver
     env_file:
       - .env
     networks:
@@ -79,7 +79,7 @@ services:
     build:
       context: ./requirements/mariadb
       args:
-        - *version
+        - *ver
     env_file:
       - .env
     networks:
@@ -88,5 +88,63 @@ services:
       - db:/var/lib/mysql
     expose:
       - "3306"
+    restart: unless-stopped
+
+  vsftpd:
+    init: true
+    container_name: vsftpd
+    image: vsftpd
+    build:
+      context: ./bonus/vsftpd
+      args:
+        - *ver
+    env_file:
+      - .env
+    volumes:
+      - *wp_vol
+    ports:
+      - "20:20"
+      - "21:21"
+      - "990:990"
+    depends_on:
+      - wordpress
+    restart: unless-stopped
+
+  redis:
+    init: true
+    container_name: redis
+    image: redis
+    build:
+      context: ./bonus/redis
+      args:
+        - *ver
+    env_file:
+      - .env
+    networks:
+      - my_net
+    expose:
+      - "6379"
+    depends_on:
+      - wordpress
+    restart: unless-stopped
+
+  adminer:
+    init: true
+    container_name: adminer
+    image: adminer
+    build:
+      context: ./bonus/adminer
+      args:
+        - *ver
+    env_file:
+      - .env
+    networks:
+      - my_net
+    volumes:
+      - *wp_vol
+    expose:
+      - "9001"
+    depends_on:
+      - wordpress
     restart: unless-stopped
 
