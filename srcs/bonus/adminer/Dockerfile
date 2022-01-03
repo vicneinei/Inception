@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/29 16:03:19 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/01/03 10:26:32 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,12 @@ EXPOSE 9001
 RUN \
     apk update &&\
     apk add --no-cache curl php8 php8-session php8-fpm php8-mysqli &&\
-    mkdir -p var/www/wordpress/adminer &&\
-    curl --retry 5 -SLO https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php \
-    --output /var/www/wordpress/adminer/index.php &&\
-    apk del curl &&\
+    mkdir var/adminer &&\
     rm -f /var/cache/apk/*
 
 COPY ./conf/www.conf /etc/php8/php-fpm.d
 
-CMD [ "php-fpm8", "-F" ]
+COPY ./tools/start.sh /
+RUN chmod u+x ./start.sh
+
+CMD [ "./start.sh" ]

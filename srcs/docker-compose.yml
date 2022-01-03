@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/29 15:44:58 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/01/02 12:16:12 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ volumes:
     driver_opts:
       type: local
       o: bind
-      device: /Users/victorneirinckx/Desktop/19/Inception/wordpress
+      device: /Users/victorneirinckx/Desktop/19/Inception/wop
   db:
     name: "db"
     driver: local
     driver_opts:
       type: volume
       o: bind
-      device: /Users/victorneirinckx/Desktop/19/Inception/db
+      device: /Users/victorneirinckx/Desktop/19/Inception/dabb
 
 services:
   nginx:
@@ -39,7 +39,8 @@ services:
     build:
       context: ./requirements/nginx
       args:
-        - &ver version=3.14.3
+        - &ver version=${ALPINE_VER}
+        - &domain domain_name=${DOMAIN_NAME}
     env_file:
       - .env
     networks:
@@ -100,12 +101,17 @@ services:
         - *ver
     env_file:
       - .env
+    environment:
+      - FTP_DIR=/var/www/
+      - FTP_USER=ftp_wp
+      - FTP_PWD=ftp_wp
     volumes:
       - *wp_vol
     ports:
       - "20:20"
       - "21:21"
       - "990:990"
+      - "40000-40100:40000-40100"
     depends_on:
       - wordpress
     restart: unless-stopped
@@ -140,11 +146,9 @@ services:
       - .env
     networks:
       - my_net
-    volumes:
-      - *wp_vol
     expose:
       - "9001"
     depends_on:
-      - wordpress
+      - mariadb
     restart: unless-stopped
 

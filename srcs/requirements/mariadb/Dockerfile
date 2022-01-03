@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/27 10:47:03 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/01/02 12:13:50 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,13 @@ RUN \
     apk add --no-cache mariadb mariadb-client &&\
     rm -f /var/cache/apk/*
 
-RUN	mkdir -p /var/lib/mysql
-
 COPY ./tools/my.cnf /etc
 COPY ./tools/start.sh /
 
 RUN \
+    mkdir -p /var/lib/mysql &&\
+    chown -R mysql:mysql var/lib/mysql &&\
     mysql_install_db &&\
-    chown -R mysql:mysql /var/lib/mysql &&\
     chmod +x ./start.sh
 
-CMD [ "mysqld_safe" ]
+CMD [ "./start.sh" ]

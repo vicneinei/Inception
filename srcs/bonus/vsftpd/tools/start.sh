@@ -1,34 +1,21 @@
+#!/bin/sh
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    .env                                               :+:      :+:    :+:    #
+#    start.sh                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/10/30 22:39:13 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/31 12:01:46 by vneirinc         ###   ########.fr        #
+#    Created: 2021/12/30 14:38:47 by vneirinc          #+#    #+#              #
+#    Updated: 2021/12/30 15:42:25 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DOMAIN_NAME=vneirinc.42.fr
-ALPINE_VER=3.14
+adduser -D -h $FTP_DIR $FTP_USER $FTP_USER;
+echo -e "$FTP_PWD\n$FTP_PWD" | passwd $FTP_USER;
+unset FTP_PWD;
+chown $FTP_USER:$FTP_USER $FTP_DIR;
+chmod a-w $FTP_DIR;
 
-DB_NAME=wordpress
-DB_USER=
-DB_PASSWORD=root
-DB_HOST=mariadb:3306
-DB_CHARSET=utf8
-
-# MYSQL SETUP
-
-MYSQL_ROOT_PASSWORD=mysql_root_pass
-MYSQL_DATABASE=db_name
-MYSQL_USER=user_name
-MYSQL_PASSWORD=user_pass
-
-# WORDPRESS SETUP
-
-MYSQL_ROOT_PASSWORD=mysql_root_pass
-WORDPRESS_DB_NAME=db_name
-WORDPRESS_DB_USER=user_name
-WORDPRESS_TABLE_PREFIX=wp_
+sleep infinity;
+#vsftpd /etc/vsftpd/vsftpd.conf;

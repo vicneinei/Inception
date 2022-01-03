@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/29 11:08:40 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/30 19:26:36 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ ARG version
 
 FROM alpine:${version}
 
-EXPOSE 20 21 990
+EXPOSE 20 21 990 40000-40100
 
 RUN \
     apk update &&\
@@ -22,14 +22,11 @@ RUN \
     openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
      -subj "/C=BE/ST=Belgium/L=Brussels/O=42 Network/OU=s19/CN=vneirinc.42.fr" \
     -out /etc/vsftpd/vneirinc.42.fr.crt -keyout /etc/vsftpd/vneirinc.42.fr.key &&\
-    mkdir -p /var/www/wordpress &&\
     apk del openssl &&\
     rm -f /var/cache/apk/*
-    #adduser --gecos --disable-password ft_wp &&\
-    #usermod -d /var/www ft_wp &&\
-    #chown ft_wp:ft_wp /var/www/wordpress &&\
 
 COPY ./conf/vsftpd.conf ./etc/vsftpd/
+COPY ./tools/start.sh ./start.sh
+RUN chmod u+x ./start.sh
 
-#CMD [ "vsftpd", "/etc/vsftpd/vsftpd.conf" ]
-CMD [ "sleep", "infinity" ]
+CMD [ "./start.sh" ]

@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/29 13:20:25 by vneirinc         ###   ########.fr        #
+#    Updated: 2021/12/31 12:08:12 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ ARG RUN_PKGS="php8-fpm php8-json php8-zlib php8-xml php8-xmlwriter \
 
 RUN \
     apk update &&\
-    apk add --no-cache ${RUN_PKGS} curl less &&\
+    apk add --no-cache ${RUN_PKGS} curl &&\
     ln -sf /usr/bin/php8 /usr/bin/php &&\
     curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 		--output /usr/bin/wp &&\
@@ -35,14 +35,13 @@ RUN \
     apk del curl &&\
     rm -f /var/cache/apk/*
 
-RUN mkdir -p /var/www/wordpress
-COPY ./conf/wp-config.php /var/www/wordpress
-#RUN wp core download --version=5.8.2 --path=/var/www/wordpress &&\
-#    wp plugin install redis-cache --activate --path=/var/www/wordpress &&\
-#    wp plugin update --all &&\
-#    wp redis enable
+COPY ./tools/start.sh /
 
-COPY ./conf/www.conf /etc/php8/php-fpm.d
+RUN mkdir -p /var/www/wordpress &&\
+    chmod u+x ./start.sh
 # insecure?
+COPY ./conf/wp-config.php /var/www/wordpress
+#
+COPY ./conf/www.conf /etc/php8/php-fpm.d
 
-CMD [ "php-fpm8", "-F" ]
+CMD [ "./start.sh" ]
