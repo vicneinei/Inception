@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/08 17:16:24 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 17:18:23 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ RUN \
     apk update &&\
     apk add --no-cache ${RUN_PKGS} ${BUILD_PKGS} &&\
     ln -sf /usr/bin/php8 /usr/bin/php &&\
-    curl ${wp_dl} --output /usr/bin/wp &&\
+    curl "${wp_dl}" --output /usr/bin/wp &&\
     chmod +x ./usr/bin/wp &&\
     wp cli update &&\
     rm -f /var/cache/apk/*
