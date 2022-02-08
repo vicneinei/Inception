@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/01/02 10:49:42 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 10:21:36 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ RUN \
     apk update &&\
     apk add --no-cache nginx openssl &&\
     openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-    -subj "/C=BE/ST=Belgium/L=Brussels/O=42 Network/OU=s19/CN=vneirinc.42.fr" \
-    -out /etc/nginx/vneirinc.42.fr.crt -keyout /etc/nginx/vneirinc.42.fr.key &&\
+    -subj "/C=BE/ST=Belgium/L=Brussels/O=42 Network/OU=s19/CN=${domain_name}" \
+    -out "/etc/nginx/${domain_name}.crt" -keyout "/etc/nginx/${domain_name}.key" &&\
     apk del openssl &&\
     rm -f /var/cache/apk/*
 

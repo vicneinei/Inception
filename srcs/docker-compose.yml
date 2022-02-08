@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    docker-compose.yml                                 :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/01/04 09:50:01 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 12:05:25 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ volumes:
     driver_opts:
       type: local
       o: bind
-      device: /Users/victorneirinckx/Desktop/19/Inception/wp
+      device: /Volumes/Storage/goinfre/vneirinc/inception/wordpress
   db:
     name: "db"
     driver: local
     driver_opts:
       type: volume
       o: bind
-      device: /Users/victorneirinckx/Desktop/19/Inception/dab
+      device: /Volumes/Storage/goinfre/vneirinc/inception/db
 
 services:
   nginx:
@@ -41,8 +41,6 @@ services:
       args:
         - &ver version=${ALPINE_VER}
         - &domain domain_name=${DOMAIN_NAME}
-    env_file:
-      - .env
     networks:
       - my_net
     volumes:
@@ -61,8 +59,12 @@ services:
       context: ./requirements/wordpress
       args:
         - *ver
-    env_file:
-      - .env
+        - wp_dl=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PWD=${MYSQL_PWD}
     networks:
       - my_net
     volumes:
@@ -81,8 +83,12 @@ services:
       context: ./requirements/mariadb
       args:
         - *ver
-    env_file:
-      - .env
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PWD=${MYSQL_PWD}
+      - MYSQL_ROOT_PWD=${MYSQL_ROOT_PWD}
     networks:
       - my_net
     volumes:
@@ -99,8 +105,6 @@ services:
       context: ./bonus/vsftpd
       args:
         - *ver
-    env_file:
-      - .env
     environment:
       - FTP_DIR=/var/www/
       - FTP_USER=ftp_wp
@@ -124,8 +128,6 @@ services:
       context: ./bonus/redis
       args:
         - *ver
-    env_file:
-      - .env
     networks:
       - my_net
     expose:
@@ -142,12 +144,16 @@ services:
       context: ./bonus/adminer
       args:
         - *ver
-    env_file:
-      - .env
+        - adminer_dl=https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PWD=${MYSQL_PWD}
     networks:
       - my_net
     expose:
-      - "9001"
+      - "9000"
     depends_on:
       - mariadb
     restart: unless-stopped

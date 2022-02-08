@@ -3,25 +3,25 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/01/04 09:06:00 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 10:24:24 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ARG version
+ARG adminer_dl
 
 FROM alpine:${version}
 
-EXPOSE 9001
+EXPOSE 9000
 
 RUN \
     apk update &&\
     apk add --no-cache curl php8 php8-session php8-fpm php8-mysqli &&\
     mkdir var/adminer &&\
-    curl --retry 5 -SL \
-    https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php \
+    curl --retry 5 -SL ${adminer_dl} \
     -o /var/adminer/index.php &&\
     apk del curl &&\
     rm -f /var/cache/apk/*

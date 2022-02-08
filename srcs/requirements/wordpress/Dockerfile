@@ -3,14 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/01/04 11:21:05 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 10:25:58 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ARG version
+ARG wp_dl
 
 FROM alpine:${version}
 
@@ -28,18 +29,13 @@ RUN \
     apk update &&\
     apk add --no-cache ${RUN_PKGS} curl &&\
     ln -sf /usr/bin/php8 /usr/bin/php &&\
-    curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-		--output /usr/bin/wp &&\
+    curl ${wp_dl} --output /usr/bin/wp &&\
     chmod +x ./usr/bin/wp &&\
     wp cli update &&\
     apk del curl &&\
     rm -f /var/cache/apk/*
 
-COPY ./tools/start.sh /
 COPY ./conf/wp-config.php /
 COPY ./conf/www.conf /etc/php8/php-fpm.d
 
-RUN chmod u+x ./start.sh
-
-CMD [ "./start.sh" ]
-#CMD [ "sleep", "infinity" ]
+CMD [ "php-fpm8", "-F" ]
