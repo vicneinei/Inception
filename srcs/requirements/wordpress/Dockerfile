@@ -6,12 +6,12 @@
 #    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/08 17:14:27 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 17:16:24 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ARG version
-ARG wp_dl
+ARG wp_dl="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
 
 FROM alpine:${version}
 
