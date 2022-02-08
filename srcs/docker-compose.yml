@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/08 12:05:25 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 15:19:15 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ volumes:
     driver_opts:
       type: local
       o: bind
-      device: /Volumes/Storage/goinfre/vneirinc/inception/wordpress
+      device: ${VOL_DIR}/wordpress
   db:
     name: "db"
     driver: local
     driver_opts:
       type: volume
       o: bind
-      device: /Volumes/Storage/goinfre/vneirinc/inception/db
+      device: ${VOL_DIR}/db
 
 services:
   nginx:
@@ -41,10 +41,13 @@ services:
       args:
         - &ver version=${ALPINE_VER}
         - &domain domain_name=${DOMAIN_NAME}
+    environment:
+      - WP_DIR=${WP_DIR}
+      - DOMAIN_NAME=${DOMAIN_NAME}
     networks:
       - my_net
     volumes:
-      - &wp_vol wordpress:/var/www/wordpress
+      - &wp_vol wordpress:${WP_DIR}
     ports:
       - "443:443"
     depends_on:
