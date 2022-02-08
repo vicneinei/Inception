@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2021/12/31 12:08:12 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/01/04 11:21:05 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,10 @@ RUN \
     rm -f /var/cache/apk/*
 
 COPY ./tools/start.sh /
-
-RUN mkdir -p /var/www/wordpress &&\
-    chmod u+x ./start.sh
-# insecure?
-COPY ./conf/wp-config.php /var/www/wordpress
-#
+COPY ./conf/wp-config.php /
 COPY ./conf/www.conf /etc/php8/php-fpm.d
 
+RUN chmod u+x ./start.sh
+
 CMD [ "./start.sh" ]
+#CMD [ "sleep", "infinity" ]

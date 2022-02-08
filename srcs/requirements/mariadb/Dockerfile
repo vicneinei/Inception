@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/01/02 12:13:50 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/01/04 09:02:58 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ RUN \
     apk add --no-cache mariadb mariadb-client &&\
     rm -f /var/cache/apk/*
 
-COPY ./tools/my.cnf /etc
+COPY ./conf/my.cnf /etc
 COPY ./tools/start.sh /
 
 RUN \

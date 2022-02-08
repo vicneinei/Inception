@@ -11,11 +11,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-adduser -D -h $FTP_DIR $FTP_USER $FTP_USER;
-echo -e "$FTP_PWD\n$FTP_PWD" | passwd $FTP_USER;
+adduser -D -h var/www/ ftp_wp ftp_wp;
+echo -e "ftp_wp\nftp_wp" | passwd ftp_wp;
 unset FTP_PWD;
-chown $FTP_USER:$FTP_USER $FTP_DIR;
-chmod a-w $FTP_DIR;
+chown ftp_wp:ftp_wp var/www/;
+chmod a-w var/www/;
 
 sleep infinity;
 #vsftpd /etc/vsftpd/vsftpd.conf;

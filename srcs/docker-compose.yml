@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/01/02 12:16:12 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/01/04 09:50:01 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ volumes:
     driver_opts:
       type: local
       o: bind
-      device: /Users/victorneirinckx/Desktop/19/Inception/wop
+      device: /Users/victorneirinckx/Desktop/19/Inception/wp
   db:
     name: "db"
     driver: local
     driver_opts:
       type: volume
       o: bind
-      device: /Users/victorneirinckx/Desktop/19/Inception/dabb
+      device: /Users/victorneirinckx/Desktop/19/Inception/dab
 
 services:
   nginx:
