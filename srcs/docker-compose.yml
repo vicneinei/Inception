@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/08 17:16:35 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 17:23:54 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,7 +147,7 @@ services:
       context: ./bonus/adminer
       args:
         - *ver
-        - adminer_dl=https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php
+        - ADMINER_DL=https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST=${MYSQL_HOST}
