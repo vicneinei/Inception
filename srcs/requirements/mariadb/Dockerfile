@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/01/04 09:02:58 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 17:12:11 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,10 @@ FROM alpine:${version}
 EXPOSE 3306
 
 RUN \
-    apk update &&\
-    apk add --no-cache mariadb mariadb-client &&\
-    rm -f /var/cache/apk/*
+    apk update
+
+RUN apk add --no-cache mariadb mariadb-client
+RUN rm -f /var/cache/apk/*
 
 COPY ./conf/my.cnf /etc
 COPY ./tools/start.sh /
