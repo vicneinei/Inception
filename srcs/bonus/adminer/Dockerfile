@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/08 17:28:41 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/08 18:13:41 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ FROM alpine:${version}
 
 EXPOSE 9000
 
-ARG ADMINER_DL="https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php"
+ARG ADMINER_DL
 
 RUN \
     apk update &&\
