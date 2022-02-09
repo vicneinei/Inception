@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/08 18:01:36 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/09 10:32:25 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,16 +32,17 @@ RUN \
     apk update &&\
     apk add --no-cache ${RUN_PKGS} ${BUILD_PKGS} &&\
     ln -sf /usr/bin/php8 /usr/bin/php &&\
-    curl -L $WP_DL -o /usr/bin/wp &&\
+    curl -L ${WP_DL} -o /usr/bin/wp &&\
     chmod +x ./usr/bin/wp &&\
     wp cli update &&\
     rm -f /var/cache/apk/*
 
-COPY ./conf/wp-config.php /
+COPY ./conf/wp-config.php /temp_conf.php
 COPY ./conf/www.conf /etc/php8/php-fpm.d
 
 RUN \
-    envsubst /wp-config.php &&\
+    envsubst < /temp_conf.php > /wp-config.php &&\
+	rm -f /temp_conf.php &&\
     apk del ${BUILD_PKGS} &&\
     unset MYSQL_PWD
 

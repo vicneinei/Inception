@@ -3,17 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/08 17:14:02 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/09 11:16:20 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ARG version
-ARG domain_name
 
 FROM alpine:${version}
+
+ARG domain_name
+ENV DOMAIN_NAME="vneirinc.42.fr"
 
 EXPOSE 443
 
@@ -26,8 +28,9 @@ RUN \
     apk del openssl &&\
     rm -f /var/cache/apk/*
 
-COPY ./conf/default.conf ./etc/nginx/http.d
+COPY ./conf/default.conf /
 
-RUN envsubst /etc/nginx/http.d/default.conf
+RUN envsubst < /default.conf > /etc/nginx/http.d/default.conf &&\
+	rm -f /default.conf
 
 CMD [ "nginx", "-g", "daemon off;" ]
