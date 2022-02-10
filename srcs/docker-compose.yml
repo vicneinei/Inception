@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    docker-compose.yml                                 :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
+#    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/10 09:58:19 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/10 11:43:34 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,8 +65,10 @@ services:
       - URL=${URL}
       - TITLE=${TITLE}
       - WP_DIR=${WP_DIR}
+      - WP_ADMIN=${WP_ADMIN}
+      - WP_ADMIN_PWD=${WP_ADMIN_PWD}
       - WP_USER=${WP_USER}
-      - WP_PWD=${WP_PWD}
+      - WP_USER_PWD=${WP_USER_PWD}
       - WP_MAIL=${WP_MAIL}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST=${MYSQL_HOST}
@@ -135,8 +137,8 @@ services:
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PWD=${MYSQL_PWD}
+      - ADMINER_USER=${ADMINER_USER}
+      - ADMINER_PWD=${ADMINER_PWD}
     networks:
       - my_net
     expose:
