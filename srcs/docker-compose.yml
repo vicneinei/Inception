@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/10 11:43:34 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/10 13:28:51 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,9 +67,10 @@ services:
       - WP_DIR=${WP_DIR}
       - WP_ADMIN=${WP_ADMIN}
       - WP_ADMIN_PWD=${WP_ADMIN_PWD}
+      - WP_ADMIN_MAIL=${WP_ADMIN_MAIL}
       - WP_USER=${WP_USER}
       - WP_USER_PWD=${WP_USER_PWD}
-      - WP_MAIL=${WP_MAIL}
+      - WP_USER_MAIL=${WP_USER_MAIL}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_USER=${MYSQL_USER}
