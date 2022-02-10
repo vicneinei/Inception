@@ -18,9 +18,7 @@ if [[ ! -f /var/lib/mysql/.init ]]; then
                       CREATE DATABASE $MYSQL_DATABASE;
                       ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PWD';
                       CREATE USER '$MYSQL_USER'@'wordpress.my_net' IDENTIFIED BY '$MYSQL_PWD';
-                      CREATE USER '$ADMINER_USER'@'adminer.my_net' IDENTIFIED BY '$ADMINER_PWD';
                       GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO $MYSQL_USER@'wordpress.my_net';
-                      GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO $ADMINER_USER@'adminer.my_net';
                       FLUSH PRIVILEGES;"
   fi
   mysqladmin shutdown
@@ -28,7 +26,6 @@ if [[ ! -f /var/lib/mysql/.init ]]; then
 fi
 
 unset MYSQL_PWD;
-unset ADMINER_PWD;
 unset MYSQL_ROOT_PWD;
 
 mysqld_safe

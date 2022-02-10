@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/10 13:28:51 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/10 15:00:12 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,8 +100,6 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PWD=${MYSQL_PWD}
       - MYSQL_ROOT_PWD=${MYSQL_ROOT_PWD}
-      - ADMINER_USER=${ADMINER_USER}
-      - ADMINER_PWD=${ADMINER_PWD}
     networks:
       - my_net
     volumes:
@@ -126,24 +124,3 @@ services:
       - wordpress
     restart: unless-stopped
 
-  adminer:
-    init: true
-    container_name: adminer
-    image: adminer
-    build:
-      context: ./bonus/adminer
-      args:
-        - *ver
-        - ADMINER_DL=https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_HOST=${MYSQL_HOST}
-      - ADMINER_USER=${ADMINER_USER}
-      - ADMINER_PWD=${ADMINER_PWD}
-    networks:
-      - my_net
-    expose:
-      - "9000"
-    depends_on:
-      - mariadb
-    restart: unless-stopped
