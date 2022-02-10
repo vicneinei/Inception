@@ -6,7 +6,7 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/22 20:33:35 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/09 10:32:25 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/09 14:01:48 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ ARG RUN_PKGS="php8-fpm php8-json php8-zlib php8-xml php8-xmlwriter \
     php8-curl php8-opcache php8-ctype \
     php8-intl php8-bcmath php8-dom php8-mbstring php8-xmlreader"
 
-ARG BUILD_PKGS="curl gettext"
+ARG BUILD_PKGS="curl"
 
 EXPOSE 9000
 
@@ -35,15 +35,13 @@ RUN \
     curl -L ${WP_DL} -o /usr/bin/wp &&\
     chmod +x ./usr/bin/wp &&\
     wp cli update &&\
+    apk del ${BUILD_PKGS} &&\
     rm -f /var/cache/apk/*
 
-COPY ./conf/wp-config.php /temp_conf.php
+COPY ./conf/wp-config.php /
 COPY ./conf/www.conf /etc/php8/php-fpm.d
+COPY ./tools/start.sh /
 
-RUN \
-    envsubst < /temp_conf.php > /wp-config.php &&\
-	rm -f /temp_conf.php &&\
-    apk del ${BUILD_PKGS} &&\
-    unset MYSQL_PWD
+RUN chmod +x start.sh
 
-CMD [ "php-fpm8", "-F" ]
+CMD [ "./start.sh" ]

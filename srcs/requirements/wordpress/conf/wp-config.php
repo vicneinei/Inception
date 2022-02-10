@@ -22,16 +22,16 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', ${MYSQL_DATABASE} );
+define( 'DB_NAME', getenv('MYSQL_DATABASE') );
 
 /** MySQL database username */
-define( 'DB_USER', ${MYSQL_USER} );
+define( 'DB_USER', getenv('MYSQL_USER') );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', ${MYSQL_PWD} );
+define( 'DB_PASSWORD', getenv('MYSQL_PWD') );
 
 /** MySQL hostname */
-define( 'DB_HOST', ${MYSQL_HOST} );
+define( 'DB_HOST', getenv('MYSQL_HOST') );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -63,8 +63,8 @@ define('NONCE_SALT',       '*S6YB7|RCY{G .[nEqJ qse9$N$$daBVTN@+t)m^AX-BkfC36YZ?
  */
 define('WP_CACHE_KEY_SALT', 'uars;ff#7Ak;g|N/W9E~GM_t(OK1|[E$9+:ETP!zcx9~7&%`1TNN;qLi@8NA AAi');
 define('WP_CACHE', true);
-define('WP_REDIS_HOST', 'redis');
-define('WP_REDIS_PORT', '6379');
+define('WP_REDIS_HOST', getenv('REDIS_HOST'));
+define('WP_REDIS_PORT', getenv('REDIS_PORT'));
 define('WP_REDIS_TIMEOUT', 1);
 define('WP_REDIS_READ_TIMEOUT', 1);
 define('WP_REDIS_DATABASE', 0);

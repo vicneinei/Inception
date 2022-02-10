@@ -6,11 +6,10 @@
 #    By: vneirinc <vneirinc@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/30 22:38:58 by vneirinc          #+#    #+#              #
-#    Updated: 2022/02/09 09:10:05 by vneirinc         ###   ########.fr        #
+#    Updated: 2022/02/10 09:58:19 by vneirinc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Node anchor def: http://yaml.org/spec/1.2-old/spec.html#id2785586
 networks:
   my_net:
     name: "my_net"
@@ -40,7 +39,6 @@ services:
       context: ./requirements/nginx
       args:
         - &ver version=${ALPINE_VER}
-        - &domain domain_name=${DOMAIN_NAME}
     environment:
       - WP_DIR=${WP_DIR}
       - DOMAIN_NAME=${DOMAIN_NAME}
@@ -64,10 +62,18 @@ services:
         - *ver
         - WP_DL=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     environment:
+      - URL=${URL}
+      - TITLE=${TITLE}
+      - WP_DIR=${WP_DIR}
+      - WP_USER=${WP_USER}
+      - WP_PWD=${WP_PWD}
+      - WP_MAIL=${WP_MAIL}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PWD=${MYSQL_PWD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
     networks:
       - my_net
     volumes:
@@ -88,39 +94,17 @@ services:
         - *ver
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PWD=${MYSQL_PWD}
       - MYSQL_ROOT_PWD=${MYSQL_ROOT_PWD}
+      - ADMINER_USER=${ADMINER_USER}
+      - ADMINER_PWD=${ADMINER_PWD}
     networks:
       - my_net
     volumes:
       - db:/var/lib/mysql
     expose:
       - "3306"
-    restart: unless-stopped
-
-  vsftpd:
-    init: true
-    container_name: vsftpd
-    image: vsftpd
-    build:
-      context: ./bonus/vsftpd
-      args:
-        - *ver
-    environment:
-      - FTP_DIR=/var/www/
-      - FTP_USER=ftp_wp
-      - FTP_PWD=ftp_wp
-    volumes:
-      - *wp_vol
-    ports:
-      - "20:20"
-      - "21:21"
-      - "990:990"
-      - "40000-40100:40000-40100"
-    depends_on:
-      - wordpress
     restart: unless-stopped
 
   redis:
